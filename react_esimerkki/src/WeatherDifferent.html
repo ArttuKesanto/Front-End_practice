@@ -1,0 +1,72 @@
+<!--import React, {useEffect}, {useState} from 'react'; -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React getting started</title>
+  </head>
+  <body>
+    <!-- Root container for react components -->
+    <div id="root"></div>
+
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+      function RenderedFunction() {
+        const [text, setText] = React.useState("");
+        const [weatherObj, setData] = React.useState({
+          city: "Helsinki",
+          temperature: 0.0,
+          detail: "",
+          icon: ""
+        });
+
+        React.useEffect(() => {
+          setText(`${weatherObj.city} weather`);
+          fetch(
+            `http://api.openweathermap.org/data/2.5/weather?q=${weatherObj.city}%20&units=metric&APPID=d5d3dc8d85b3c080bbffb0b4f9f506b7`
+          )
+            .then(response => response.json())
+            .then(responseData => {
+              setData({
+                ...weatherObj,
+                temperature: responseData.main.temp,
+                detail: responseData.weather[0].main,
+                icon: `http://openweathermap.org/img/w/${responseData.weather[0].icon}.png`
+              });
+            })
+            .catch(err => console.error(err));
+        }, [weatherObj.city]);
+
+        const onPress = event => {
+          setData({
+            ...weatherObj,
+            city: document.getElementById("cityfield").value
+          });
+        };
+
+        return (
+          <div>
+            <input id="cityfield" defaultValue={weatherObj.city} />
+            <button onClick={onPress}>Get weather</button>
+            <h3>{text}</h3>
+            <p> Temperature : {weatherObj.temperature} Celsius</p>
+            <p>Weather: {weatherObj.detail}</p>
+            <img src={weatherObj.icon} alt="weatherIcon" />
+          </div>
+        );
+      }
+
+      ReactDOM.render(<RenderedFunction />, document.getElementById("root"));
+      export default RenderedFunction;
+    </script>
+  </body>
+</html>
