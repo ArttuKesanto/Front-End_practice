@@ -15,10 +15,10 @@ try {
         
         // for (let i = 0; i < json.meals[0].strMeal.length; i++) {
         // for (let i = 0; i < json.meals[i].strMeal.length; i++) {
-        // while (json.meals[index].strMeal.length > 0) {
+        // while (json.meals[index].strMeal.length > 0) {  MUISTA: Jos setataan tyhjään listaan, ei aaltosulkeita! Muuten objekti! Voidaan siirtää näin! (setInfo(json.meals))
         setInfo ( 
             {
-                name: json.meals
+                name: json.meals 
             } 
                 );
         
@@ -42,7 +42,7 @@ var list = [];
 for (var i in mealInfo.name)
     list.push([i, mealInfo.name[i]])
 console.log(mealInfo);
-console.log(list)
+console.log(list);
 //  const x = mealInfo.name[0];
    return (
     < ObjektiTaulukkoMeals meals = { list } />
